@@ -1,0 +1,10 @@
+flask
+flask_cors
+python-dotenv
+pymongo
+IPython
+sentence-transformers
+torch
+numpy
+werkzeug
+pydantic

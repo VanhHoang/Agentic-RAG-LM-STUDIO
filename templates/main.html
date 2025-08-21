@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VanhGPT</title>
+    <link rel="icon" href="../static/icon.png" type="image/png" />
+    <link rel="stylesheet" href="../static/main.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn-uicons.flaticon.com/3.0.0/uicons-regular-rounded/css/uicons-regular-rounded.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  </head>
+  <body>
+    <div class="sidebar" id="sidebar">
+      <div class="apps-section" onclick="event.stopPropagation()">
+        <div class="apps-category" onclick="event.stopPropagation()">
+          <button
+            class="category-header"
+            id="appsCategory"
+            onclick="event.stopPropagation()"
+          >
+            <i class="fi fi-rr-apps"></i>
+            <span>Apps</span>
+            <i class="fi fi-rr-angle-small-down expand-icon"></i>
+          </button>
+          <div
+            class="category-content expanded"
+            id="appsCategoryContent"
+            onclick="event.stopPropagation()"
+          >
+            <div class="app-item">
+              <i class="fi fi-rr-comment"></i>
+              <span>Chat Bot</span>
+            </div>
+            <div class="app-item">
+              <i class="fi fi-rr-messages"></i>
+              <span>Chat Bot SmartPhone (RAG)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button class="new-chat-btn" id="newChatBtn">
+        <span>
+          <i class="fi fi-rr-multiple user-email-icon"></i>
+        </span>
+        <span>Cuộc trò chuyện mới</span>
+      </button>
+
+      <div class="chat-history" id="chatHistory"></div>
+    </div>
+
+    <div class="main-content">
+      <div class="header">
+        <div style="display: flex; align-items: center; gap: 6px">
+          <button class="menu-toggle" id="menuToggle">
+            <i class="fi fi-rr-menu-burger"></i>
+          </button>
+          <div class="header-title">VanhGPT</div>
+        </div>
+        <div class="user-menu" style="display: none">
+          <button class="user-avatar-btn" id="userAvatarBtn">
+            <div class="avatar">
+              <img class="img-ai" src="../static/user.png" alt="" />
+            </div>
+          </button>
+          <div class="user-dropdown" id="userDropdown">
+            <div class="dropdown-header">
+              <div class="user-email">
+                <i class="fi fi-rr-user"></i>
+                Vanh102
+              </div>
+            </div>
+
+            <div class="dropdown-item" onclick="handleMenuClick('logout')">
+              <i class="fi fi-rr-power dropdown-item-icon"></i>
+              Đăng xuất
+            </div>
+          </div>
+        </div>
+
+        <div class="auth-menu">
+          <button class="auth-btn login-btn">
+            <i class="fi fi-rr-sign-in-alt"></i>
+            <span>Đăng nhập</span>
+          </button>
+          <button class="auth-btn signup-btn">
+            <i class="fi fi-rr-user-add"></i>
+            <span>Đăng ký</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="chat-container" id="chatContainer">
+        <div class="welcome-screen" id="welcomeScreen">
+          <h1 class="welcome-title">Chào bạn! Tôi có thể giúp gì cho bạn?</h1>
+        </div>
+      </div>
+
+      <div class="input-area">
+        <div class="input-container">
+          <div class="input-wrapper">
+            <textarea
+              class="message-input"
+              id="messageInput"
+              placeholder="Nhập tin nhắn của bạn..."
+              rows="1"
+            ></textarea>
+
+            <button class="send-btn" id="sendBtn" disabled>
+              <i class="fi fi-rr-paper-plane"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="auth-modal" id="loginModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>Đăng nhập</h2>
+          <button class="close-btn" onclick="closeModal('loginModal')">
+            &times;
+          </button>
+        </div>
+        <form id="loginForm">
+          <div class="form-group">
+            <label for="loginUsername">Tên đăng nhập:</label>
+            <input type="text" id="loginUsername" required />
+          </div>
+          <div class="form-group">
+            <label for="loginPassword">Mật khẩu:</label>
+            <input type="password" id="loginPassword" required />
+          </div>
+          <button type="submit" class="auth-submit-btn">Đăng nhập</button>
+        </form>
+        <p class="auth-switch">
+          Chưa có tài khoản?
+          <a href="#" onclick="switchModal('loginModal', 'signupModal')"
+            >Đăng ký</a
+          >
+        </p>
+      </div>
+    </div>
+
+    <!-- Signup Modal -->
+    <div class="auth-modal" id="signupModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>Đăng ký</h2>
+          <button class="close-btn" onclick="closeModal('signupModal')">
+            &times;
+          </button>
+        </div>
+        <form id="signupForm">
+          <div class="form-group">
+            <label for="signupUsername">Tên đăng nhập:</label>
+            <input type="text" id="signupUsername" required />
+          </div>
+          <div class="form-group">
+            <label for="signupEmail">Email:</label>
+            <input type="email" id="signupEmail" required />
+          </div>
+          <div class="form-group">
+            <label for="signupPassword">Mật khẩu:</label>
+            <input type="password" id="signupPassword" required />
+          </div>
+          <div class="form-group">
+            <label for="confirmPassword">Xác nhận mật khẩu:</label>
+            <input type="password" id="confirmPassword" required />
+          </div>
+          <button type="submit" class="auth-submit-btn">Đăng ký</button>
+        </form>
+        <p class="auth-switch">
+          Đã có tài khoản?
+          <a href="#" onclick="switchModal('signupModal', 'loginModal')"
+            >Đăng nhập</a
+          >
+        </p>
+      </div>
+    </div>
+    <script src="../static/main.js"></script>
+  </body>
+</html>

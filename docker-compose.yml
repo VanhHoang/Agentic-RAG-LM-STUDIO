@@ -1,0 +1,23 @@
+# version: '3.8'
+services:
+  chatbot_app:
+    # build: .
+    image: vanhhoang102/lmstudio
+    ports:
+      - "5000:5000"
+    # volumes:
+    #   - .:/app
+    environment:
+      - MONGODB_URI=mongodb+srv://vanh:VPn7MKyeGkxVhpCi@rag-cluster.oyh6y0h.mongodb.net/?retryWrites=true&w=majority&appName=rag-cluster
+      - DB_NAME=hoanghamobilenew
+      - DB_COLLECTION_PRODUCT=bge-m3
+      - DB_COLLECTION_USERS=users
+      - DB_COLLECTION_CONVERSATIONS=conversations
+      - DB_COLLECTION_MESSAGES=messages
+      - SECRET_KEY=VanhHoang
+      - LMSTUDIO_BASE_URL=http://host.docker.internal:1234
+      - LMSTUDIO_MODEL=gpt-oss
+
+  # cloudflared:
+  #   image: cloudflare/cloudflared:latest
+  #   command: tunnel --no-autoupdate run --token <YOUR TOKEN>
